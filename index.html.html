@@ -1,0 +1,220 @@
+<html>
+        <head><title>Downloaded HTML</title></head>
+        <body>
+            <pre style="white-space: pre-wrap; word-wrap: break-word;"><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SFM Malaysia: Food Security Derivative Calculator</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #1e3a1e 0%, #064e3b 100%);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans text-gray-800">
+
+    <header class="gradient-bg text-white py-8 px-6 shadow-md text-center">
+        <span class="bg-yellow-400 text-emerald-950 font-bold px-3 py-1 rounded-full text-xs uppercase tracking-wider">SFM: Food Security Application</span>
+        <h1 class="text-3xl font-extrabold mt-2">Oil Palm FFB Growth & Yield Optimization</h1>
+        <p class="text-emerald-200 mt-1 text-sm max-w-2xl mx-auto">
+            Utilizing Calculus to pinpoint optimal harvest windows, maximizing Malaysian crude palm oil (CPO) efficiency.
+        </p>
+    </header>
+
+    <main class="max-w-6xl mx-auto p-4 md:p-8 grid grid-cols-1 lg:grid-cols-3 gap-8">
+        
+        <div class="lg:col-span-1 space-y-6">
+            
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                <h2 class="text-xl font-bold text-emerald-800 mb-3 flex items-center gap-2">
+                    🌱 The Bioscience Scenario
+                </h2>
+                <p class="text-sm leading-relaxed text-gray-600">
+                    In Malaysia, managing Fresh Fruit Bunch (FFB) maturity is vital for sustainable food security. 
+                    If harvested too early, oil content is low; if harvested too late, free fatty acids ruin the oil quality. 
+                    By tracking FFB weight over a 22-week development cycle, we model growth using a 
+                    <strong>Logistic Growth Function</strong>. The derivative represents the 
+                    <span class="text-emerald-600 font-semibold">Instantaneous Oil Accumulation Rate (kg/week)</span>.
+                </p>
+                <div class="mt-4 pt-3 border-t border-gray-100 text-xs text-gray-500">
+                    <strong>Data Reference Framework:</strong> Inspired by growth curves published in the 
+                    <span class="italic text-emerald-700 font-medium">MPOB (Malaysian Palm Oil Board) Journal of Oil Palm Research</span>.
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 space-y-4">
+                <h2 class="text-xl font-bold text-emerald-800">🧮 Mathematical Model</h2>
+                
+                <div>
+                    <span class="text-xs font-semibold text-gray-400 uppercase">Growth Function f(x)</span>
+                    <div class="bg-emerald-50 text-emerald-900 font-mono p-3 rounded-lg text-center font-bold text-sm mt-1">
+                        f(x) = L / (1 + e^(-k(x - x₀)))
+                    </div>
+                    <p class="text-xs text-gray-500 mt-1">Where Max Weight (L) = 25kg, Growth Rate (k) = 0.4, Midpoint (x₀) = 12 weeks.</p>
+                </div>
+
+                <div>
+                    <span class="text-xs font-semibold text-gray-400 uppercase">Derivative f'(x) [Rate of Change]</span>
+                    <div class="bg-amber-50 text-amber-900 font-mono p-3 rounded-lg text-center font-bold text-sm mt-1">
+                        f'(x) = k · f(x) · (1 - f(x)/L)
+                    </div>
+                    <p class="text-xs text-gray-500 mt-1">Calculates exactly how many kilograms of biomass/oil the fruit is packing on per week.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="lg:col-span-2 space-y-6">
+            
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                <div class="flex justify-between items-center mb-4">
+                    <div>
+                        <h2 class="text-xl font-bold text-gray-900">FFB Maturity Curve Analysis</h2>
+                        <p class="text-xs text-gray-400">Click anywhere on the line to calculate the derivative at that exact week.</p>
+                    </div>
+                    <span class="bg-emerald-100 text-emerald-800 text-xs font-semibold px-2.5 py-0.5 rounded-full">Interactive</span>
+                </div>
+                
+                <div class="relative h-80 w-full">
+                    <canvas id="growthChart"></canvas>
+                </div>
+            </div>
+
+            <div id="resultPanel" class="bg-slate-900 text-white p-6 rounded-2xl shadow-lg transition-all duration-300 transform border border-slate-800">
+                <div id="placeholderText" class="text-center py-4 text-slate-400 text-sm">
+                    💡 Click on a data point on the chart above to run the calculus engine and reveal bioscience insights.
+                </div>
+                
+                <div id="calcContent" class="hidden grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
+                    <div class="border-b md:border-b-0 md:border-r border-slate-700 pb-4 md:pb-0">
+                        <span class="text-xs font-semibold text-emerald-400 uppercase tracking-wider">Selected Time</span>
+                        <div class="text-3xl font-black mt-1" id="resWeek">Week 12</div>
+                        <span class="text-xs text-slate-400">Post-Anthesis Phase</span>
+                    </div>
+                    
+                    <div class="border-b md:border-b-0 md:border-r border-slate-700 pb-4 md:pb-0">
+                        <span class="text-xs font-semibold text-amber-400 uppercase tracking-wider">Derivative f'(x)</span>
+                        <div class="text-3xl font-black mt-1 text-amber-400" id="resDerivative">2.50 <span class="text-lg">kg/wk</span></div>
+                        <span class="text-xs text-slate-400" id="resWeight">Bunch Weight: 12.5 kg</span>
+                    </div>
+
+                    <div>
+                        <span class="text-xs font-semibold text-blue-400 uppercase tracking-wider">Layman Interpretation</span>
+                        <p class="text-xs text-slate-300 mt-1 leading-relaxed" id="resExplanation">
+                            Loading calculations...
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="text-center py-8 text-xs text-gray-400 mt-12 border-t border-gray-200">
+        SFM Food Security Interactive Calculus Visualizer &copy; 2026. Built using Chart.js.
+    </footer>
+
+    <script>
+        // Mathematical Constants for Malaysian FFB Model
+        const L = 25;    // Maximum capacity weight of bunch in kg
+        const k = 0.4;  // Logistic growth coefficient 
+        const x0 = 12;  // Inflection point (Week where growth peaks)
+
+        // Generate data arrays for Weeks 0 to 22
+        const weeks = Array.from({length: 23}, (_, i) => i);
+        
+        // f(x) Logistic function calculation
+        function getWeight(x) {
+            return L / (1 + Math.exp(-k * (x - x0)));
+        }
+
+        // f'(x) First derivative calculation
+        function getDerivative(x) {
+            const fx = getWeight(x);
+            return k * fx * (1 - (fx / L));
+        }
+
+        const weightData = weeks.map(w => getWeight(w).toFixed(2));
+
+        // Initialize Chart.js
+        const ctx = document.getElementById('growthChart').getContext('2d');
+        const growthChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: weeks.map(w => `Wk ${w}`),
+                datasets: [{
+                    label: 'FFB Weight f(x) (kg)',
+                    data: weightData,
+                    borderColor: '#10b981',
+                    borderWidth: 3,
+                    backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                    fill: true,
+                    tension: 0.3,
+                    pointBackgroundColor: '#047857',
+                    pointHoverRadius: 8,
+                    pointHoverBackgroundColor: '#f59e0b'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: true, position: 'top' }
+                },
+                scales: {
+                    y: {
+                        title: { display: true, text: 'Bunch Weight (kg)', font: { weight: 'bold' } },
+                        min: 0,
+                        max: 28
+                    },
+                    x: {
+                        title: { display: true, text: 'Time (Weeks After Anthesis)', font: { weight: 'bold' } }
+                    }
+                },
+                // Trigger action when user clicks on a data point
+                onClick: (e, elements) => {
+                    if (elements.length > 0) {
+                        const index = elements[0].index;
+                        calculatePointInsights(index);
+                    }
+                }
+            }
+        });
+
+        // Interactive Calculus Engine and Bio-Interpretation Logic
+        function calculatePointInsights(week) {
+            const fx = getWeight(week);
+            const dfx = getDerivative(week);
+
+            // Update UI Elements
+            document.getElementById('placeholderText').classList.add('hidden');
+            document.getElementById('calcContent').classList.remove('hidden');
+
+            document.getElementById('resWeek').innerText = `Week ${week}`;
+            document.getElementById('resWeight').innerText = `Bunch Weight: ${fx.toFixed(2)} kg`;
+            document.getElementById('resDerivative').innerText = `${dfx.toFixed(3)} kg/wk`;
+
+            // Dynamic layman interpretations based on the derivative value and timeline
+            let laymanExplanation = "";
+            if (week < 6) {
+                laymanExplanation = "The fruit bunch is in its cell-division phase. The derivative is tiny because cell expansion hasn't aggressively started yet. Do not harvest; oil content is near zero.";
+            } else if (week >= 6 && week < 11) {
+                laymanExplanation = "Growth is accelerating dramatically! The positive derivative indicates the bunch is hoarding sugars and converting them to initial palm oil rapidly.";
+            } else if (week >= 11 && week <= 13) {
+                laymanExplanation = `CRITICAL WINDOW: The derivative is at its maximum peak (~${dfx.toFixed(2)} kg/wk). The bunch is compounding mass at the fastest velocity possible. Harvesting right after this window maximizes oil yield efficiency.`;
+            } else if (week > 13 && week <= 18) {
+                laymanExplanation = "Growth velocity is slowing down (the derivative is decreasing, though still positive). The bunch is nearing its maximum biological storage capacity.";
+            } else {
+                laymanExplanation = "The derivative approaches 0. The bunch is fully ripe and has ceased growing. Harvesting now is urgent; waiting longer risks losing food grade quality to rot and high acidity.";
+            }
+
+            document.getElementById('resExplanation').innerText = laymanExplanation;
+        }
+    </script>
+</body>
+</html></pre>
+        </body>
+    </html>
